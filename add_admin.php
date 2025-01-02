@@ -9,7 +9,7 @@ if ($_SESSION['admin_type'] !== 'super') {
     echo 'Permission Denied';
     exit();
 }
-
+  
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
