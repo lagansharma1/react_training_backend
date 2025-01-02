@@ -83,7 +83,7 @@
                                     <a href="#"><i class="fa fa-user-circle fa-fw"></i> COURSES<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>
-											<a href="<?php echo BASEURL;?>/press/brands.php"><i class="fa fa-plus fa-fw"></i>List COURSES</a>
+											<a href="<?php echo BASEURL;?>/press/course.php"><i class="fa fa-plus fa-fw"></i>List COURSES</a>
 										</li>
 										<li>
 											<a href="<?php echo BASEURL;?>/press/add_course.php"><i class="fa fa-plus fa-fw"></i>Add COURSES</a>

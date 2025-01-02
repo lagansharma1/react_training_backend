@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
          $_SESSION['success'] = "Video links added successfully!";
-         header('location: brands.php');
+         header('location: course.php');
          exit();
     }
     
@@ -165,15 +165,15 @@ require_once '../includes/header.php';
                 </div>
                 <div class="form-group video-url-group col-md-3">
                     <label for="video_size">Video Size *</label>
-                    <input type="text" name="video_url[size][]" placeholder="Video URL" class="form-control" required="required">
+                    <input type="text" name="video_url[size][]" placeholder="Video Size" class="form-control" required="required">
                 </div>
                 <div class="form-group video-url-group col-md-3">
                     <label for="video_type">Video Type *</label>
-                    <input type="text" name="video_url[type][]" placeholder="Video URL" class="form-control" required="required">
+                    <input type="text" name="video_url[type][]" placeholder="Video Type" class="form-control" required="required">
                 </div>
                 <div class="form-group video-url-group col-md-3">
                     <label for="video_duration">Video Duration *</label>
-                    <input type="text" name="video_url[duration][]" placeholder="Video URL" class="form-control" required="required">
+                    <input type="text" name="video_url[duration][]" placeholder="Video Duration" class="form-control" required="required">
                 </div>
             </div>
             <div class="form-group">
@@ -264,7 +264,7 @@ $(document).ready(function () {
         const dataToSend = JSON.stringify({ videoUrl });
 
         $.ajax({
-            url: 'https://172.22.3.181:3003/api/v1/filedetailsaws', // API endpoint
+            url: 'https://8490-103-72-169-91.ngrok-free.app/api/v1/filedetailsaws', // API endpoint
             type: 'POST',
             data: dataToSend,
             contentType: 'application/json',

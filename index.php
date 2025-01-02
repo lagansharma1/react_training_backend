@@ -15,7 +15,7 @@ $db = getDbInstance();
 
 //Get Dashboard information
 $numPrs = $db->getValue ("pr", "count(*)");
-$numBrands = $db->getValue ("brands", "count(*)");
+$numBrands = $db->getValue ("course_videos", "count(*)");
 $numSliders = $db->getValue ("slider", "count(*)");
 $numKidneys = $db->getValue ("kidney_page", "count(*)");
 
@@ -44,7 +44,7 @@ include_once('includes/header.php');
                         </div>
                     </div>
                 </div>
-                <a href="press/brands.php">
+                <a href="press/course.php">
                     <div class="panel-footer">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

@@ -1,5 +1,5 @@
 <?php
-class Brands
+class Courses
 {
     /**
      *
@@ -22,11 +22,17 @@ class Brands
     {
         $ordering = [
             'id' => 'ID',
-            'brand_name' => 'brand_name',
+            'course_name' => 'Course Name',
+            'group_id' => 'Group',
             'created_at' => 'Created at'
         ];
 
         return $ordering;
+    }
+    public function get_videos($course_id, $db){
+         $db->where('course_id', $course_id);
+        $result = $db->get('course_videos');
+        return count($result); // Return the count of rows
     }
 }
 ?>

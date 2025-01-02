@@ -2,10 +2,12 @@
 session_start();
 require_once '../config/config.php';
 require_once '../includes/auth_validate.php';
-
+include '../config/connectdb.php';
 // Costumers class
-require_once BASE_PATH . '/lib/Brands/Brands.php';
-$brands = new Brands();
+require_once BASE_PATH . '/lib/Courses/Courses.php';
+
+ 
+$course = new Courses();
 
 // Get Input data from query string
 $search_string = filter_input(INPUT_GET, 'search_string');
@@ -31,7 +33,7 @@ if (!$order_by) {
 
 //Get DB instance. i.e instance of MYSQLiDB Library
 $db = getDbInstance();
-$select = array('id', 'brand_name', 'brand_image', 'created_at');
+$select = array('id', 'course_name','group_id','created_at');
 
 //Start building query according to input parameters.
 // If search string
@@ -48,8 +50,8 @@ if ($order_by) {
 $db->pageLimit = $pagelimit;
 
 // Get result of the query.
-$rows = $db->arraybuilder()->paginate('brands', $page, $select);
-$total_pages = $db->totalPages;
+$rows = $db->arraybuilder()->paginate('courses', $page, $select);
+ $total_pages = $db->totalPages;
 
 include BASE_PATH . '/includes/header.php';
 ?>
@@ -57,7 +59,7 @@ include BASE_PATH . '/includes/header.php';
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-6">
-            <h1 class="page-header">Videos</h1>
+            <h1 class="page-header">Courses</h1>
         </div>
         <div class="col-lg-6">
             <div class="page-action-links text-right">
@@ -75,7 +77,7 @@ include BASE_PATH . '/includes/header.php';
             <label for="input_order">Order By</label>
             <select name="filter_col" class="form-control">
                 <?php
-					foreach ($brands->setOrderingValues() as $opt_value => $opt_name):
+					foreach ($course->setOrderingValues() as $opt_value => $opt_name):
 						($order_by === $opt_value) ? $selected = 'selected' : $selected = '';
 						echo ' <option value="' . $opt_value . '" ' . $selected . '>' . $opt_name . '</option>';
 					endforeach;
@@ -104,27 +106,44 @@ include BASE_PATH . '/includes/header.php';
         <thead>
             <tr>
                 <th width="5%">ID</th>
-                <th width="45%">Video Name</th>
-                <th width="20%">Video Image</th>
+                <th width="45%">Course Name</th>
+                <th width="20%">Group</th>
+                <th width="20%">video</th>
                 <th width="10%">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <?php $bd=1; foreach ($rows as $row): ?>
+
+
+            <?php $bd=1; foreach ($rows as $row): 
+                $video_count = $course->get_videos($row['id'],$db);
+            ?>
             <tr>
                 <td><?php echo $bd; ?></td>
-                <td><?php echo xss_clean($row['brand_name']); ?></td>
-                <td><img src="<?php echo BASEURL .'/assets/brands/'.$row['brand_image']; ?>" width="50px"/></td>
-                <td>
-                    <a href="edit_brand.php?brand_id=<?php echo $row['id']; ?>&operation=edit" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
-                    <a href="#" class="btn btn-danger delete_btn" data-toggle="modal" data-target="#confirm-delete-<?php echo $row['id']; ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                <td><?php echo xss_clean($row['course_name']); ?></td>
+                <td><?php echo xss_clean($row['group_id']); ?></td>
+                <td> 
+                <?php 
+                    if ($video_count >= 1) { // Corrected comparison operator
+                        ?>
+                        <a href="show_video.php?course_id=<?php echo $row['id']; ?>&operation=show" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-eye-open"></i>  
+                            <?php echo $video_count; ?>
+                        </a>
+                        <?php
+                    } else {
+                        echo 'NA';
+                    }
+                    ?>
+
+                     
                 </td>
             </tr>
-            <!-- Delete Confirmation Modal -->
+           
             <div class="modal fade" id="confirm-delete-<?php echo $row['id']; ?>" role="dialog">
                 <div class="modal-dialog">
                     <form action="delete_brand.php" method="POST">
-                        <!-- Modal content -->
+                        
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -142,15 +161,17 @@ include BASE_PATH . '/includes/header.php';
                     </form>
                 </div>
             </div>
-            <!-- //Delete Confirmation Modal -->
+             
             <?php $bd++; endforeach;?>
         </tbody>
+
+        
     </table>
     <!-- //Table -->
 
     <!-- Pagination -->
     <div class="text-center">
-    <?php echo paginationLinks($page, $total_pages, 'press/brands.php'); ?>
+    <?php echo paginationLinks($page, $total_pages, 'press/course.php'); ?>
     </div>
     <!-- //Pagination -->
 </div>

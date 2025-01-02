@@ -194,12 +194,7 @@
                 $groupId = $_GET['group_id'];
             
                 // Your logic to fetch the videos by group_id
-                $stmt = $this->db->prepare("SELECT courses.*, GROUP_CONCAT(course_videos.video_url) AS video_urls
-                       FROM courses
-                       LEFT JOIN course_videos ON courses.id = course_videos.course_id
-                       WHERE courses.group_id = :group_id
-                       GROUP BY courses.id
-                       LIMIT 0, 25");
+                $stmt = $this->db->prepare("SELECT courses.*, course_videos.* FROM courses LEFT JOIN course_videos ON courses.id = course_videos.course_id WHERE courses.group_id = :group_id");
                 $stmt->bindParam(':group_id', $groupId, PDO::PARAM_INT);
                 $stmt->execute();
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
